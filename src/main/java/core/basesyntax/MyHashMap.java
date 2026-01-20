@@ -75,13 +75,13 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     private int getIndex(K key, int capacity) {
-        return Math.abs(key.hashCode()) % capacity;
+        return (key.hashCode() & 0x7fffffff) % capacity;
     }
 
     private void resize() {
         Node<K, V>[] oldTable = table;
         table = new Node[oldTable.length * 2];
-        size = 0;
+        size = hasNullKey ? 1 : 0;
 
         for (Node<K, V> node : oldTable) {
             while (node != null) {
@@ -99,26 +99,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         Node(K key, V value) {
             this.key = key;
             this.value = value;
-        }
-
-        K getKey() {
-            return key;
-        }
-
-        V getValue() {
-            return value;
-        }
-
-        void setValue(V value) {
-            this.value = value;
-        }
-
-        Node<K, V> getNext() {
-            return next;
-        }
-
-        void setNext(Node<K, V> next) {
-            this.next = next;
         }
     }
 
