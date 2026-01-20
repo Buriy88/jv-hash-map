@@ -3,15 +3,13 @@ package core.basesyntax;
 public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private static final int DEFAULT_CAPACITY = 16;
-
     private static final float LOAD_FACTOR = 0.75f;
+    private static final int RESIZE_MULTIPLIER = 2;
+
 
     private Node<K, V>[] table;
-
     private int size;
-
     private boolean hasNullKey;
-
     private V nullValue;
 
     public MyHashMap() {
@@ -80,7 +78,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private void resize() {
         Node<K, V>[] oldTable = table;
-        table = new Node[oldTable.length * 2];
+        table = new Node[oldTable.length * RESIZE_MULTIPLIER];
         size = hasNullKey ? 1 : 0;
 
         for (Node<K, V> node : oldTable) {
@@ -96,7 +94,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         private V value;
         private Node<K, V> next;
 
-        Node(K key, V value) {
+        private Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
